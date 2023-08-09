@@ -24,18 +24,35 @@ void pegar_cor(int RGB, GLfloat vetor_cor[3]){
 }
 
 //Desenhar as primitivas de OPENGL 
-void desenhar_cuboide(int int_cor){
+void desenhar_cuboide(int int_cor, float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z){
+	GLfloat cor[3];
+	
+	pegar_cor(int_cor, cor);
+
+	glPushMatrix();
+	
+	glColor3f(cor[0], cor[1], cor[2]);
+	
+	//glTranslatef(0.0f, 0.7f, 0.0f);
+	glTranslatef(pos_x, pos_y, pos_z);
+	glScalef(escala_x, escala_y, escala_z);
+	glutSolidCube(1.0);
+
+	glPopMatrix();
 }
 
-void desenhar_esfera(int int_cor){
+void desenhar_esfera(int int_cor, float pos_x, float pos_y, float pos_z){
 	GLfloat cor[3];
 	glPushMatrix();
+	
 	pegar_cor(int_cor, cor);
 	
 	//Preenchendo com a palheta RGB
 	glColor3f(cor[0], cor[1], cor[2]);
-	glTranslatef(0.0f, 1.5f, 0.0f);
+	glTranslatef(pos_x, pos_y, pos_z);
+	//glTranslatef(0.0f, 1.5f, 0.0f);
 	glutSolidSphere(0.3, 20, 20);
+	
 	glPopMatrix();
 
 }

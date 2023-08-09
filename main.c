@@ -3,6 +3,9 @@
 #include <GL/gl.h>
 #include "primitivas.h"
 
+#define COR_DE_PELE 0xeab676
+#define COR_DA_CAMISA 0xff0000
+
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
@@ -10,7 +13,9 @@ void display(){
 			  0.0, 1.0, 0.0, 
 			  0.0, 1.0, 0.0);
 
-	desenhar_esfera(0xeab676);
+	desenhar_esfera(COR_DE_PELE, 0.0f, 1.5f, 0.0f);
+	desenhar_cuboide(COR_DA_CAMISA, 0.0f, 0.7f, 0.0f, 1.0f, 1.0, 1.0);
+
 
 	glutSwapBuffers();
 

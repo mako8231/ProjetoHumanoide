@@ -13,8 +13,8 @@
 	void pegar_cor(int RGB, GLfloat vetor_cor[3]);
 
 	//Desenhar as primitivas de OPENGL 
-	void desenhar_cuboide(int int_cor);
-	void desenhar_esfera(int int_corS);
+	void desenhar_cuboide(int int_cor, float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z);
+	void desenhar_esfera(int int_cor, float pos_x, float pos_y, float pos_z);
 
 	//Desenhar os membros do robô 
 	void desenhar_cabeca();
