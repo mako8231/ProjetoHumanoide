@@ -10,6 +10,8 @@ void display(){
 			  0.0, 1.0, 0.0, 
 			  0.0, 1.0, 0.0);
 
+	desenhar_esfera(0xeab676);
+
 	glutSwapBuffers();
 
 }
