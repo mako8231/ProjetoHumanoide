@@ -75,11 +75,11 @@ void desenhar_braco(GLfloat angulo, float pos_x, float pos_y, float pos_z){
 
 //desenhando as partes das pernas 
 void desenhar_coxa(GLfloat angulo, float pos_x, float pos_y, float pos_z){
-
+	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo);
 }
 
 void desenhar_perna(GLfloat angulo, float pos_x, float pos_y, float pos_z){
-
+	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo);	
 }
 
 //desenhando o torso 

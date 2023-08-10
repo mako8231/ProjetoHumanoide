@@ -24,8 +24,16 @@ void display(){
 	desenhar_antebraco(0.0, 0.8f, 0.7f, 0.0f);
 	//desenhando o braço esquerdo
 	desenhar_braco(0.0, -0.8f, -0.2f, 0.0f);
-	//desenhando o braço esquerdo
+	//desenhando o braço direito
 	desenhar_braco(0.0, 0.8f, -0.2f, 0.0f);
+	//desenhando a coxa direita
+	desenhar_coxa(0.0, 0.3, -0.2, 0.0f);
+	//desenhando a coxa esquerda
+	desenhar_coxa(0.0, -0.3, -0.2, 0.0f);
+	//desenhando a perna esquerda
+	desenhar_perna(0.0, -0.3, -1.0, 0.0f);
+	//desenhando a perna direita
+	desenhar_perna(0.0, 0.3, -1.0, 0.0f);
 
 	glutSwapBuffers();
 

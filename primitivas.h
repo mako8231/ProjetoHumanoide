@@ -9,6 +9,7 @@
 	//Código hexadecimal para cada cor
 	#define COR_DE_PELE 0xeab676
 	#define COR_DA_CAMISA 0xff0000
+	#define COR_DA_CALCA 0x102059
 
 
 	//incluindo as bibliotecas OPENGL
