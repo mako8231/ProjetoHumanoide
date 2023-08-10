@@ -20,24 +20,47 @@ void pegar_cor(int RGB, GLfloat vetor_cor[3]){
 		vetor_cor[1] = vetor_cor[1]/255;
 		vetor_cor[2] = vetor_cor[2]/255;
 
-		printf("RGB: %f %f %f\n", vetor_cor[0], vetor_cor[1], vetor_cor[2]);
 }
 
-//Desenhar as primitivas de OPENGL 
+//Desenhar as primitivas de OPENGL:
+
+
+//função que define a primitiva do cubo:
+void primitiva_cubo(float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z, GLfloat angulo){
+	glRotatef(angulo, 1.0f, 0.0f, 0.0f);
+	glTranslatef(pos_x, pos_y, pos_z);
+	glScalef(escala_x, escala_y, escala_z);
+	glutSolidCube(1.0);
+}
+
 void desenhar_cuboide(int int_cor, float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z, GLfloat angulo){
 	GLfloat cor[3];
 	
 	pegar_cor(int_cor, cor);
 
+	/**~~~~~~~~CRIANDO UM MODELO 3D COM LINHAS PRETAS PARA O CONTORNO DO MODELO~~~~~~**/
+
 	glPushMatrix();
 	
+	//criando o outline wireframe:
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glColor3f(0, 0, 0);
+	primitiva_cubo(pos_x, pos_y, pos_z, escala_x, escala_y, escala_z, angulo);
+	//desabilitando o modo wireframe
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+	glPopMatrix();
+
+	/**~~~~~~~~AQUI CRIA-SE UM MODELO DE COR SÓLIDA USANDO OS MESMOS PARÂMETROS~~~~~~**/
+
+	glPushMatrix();
+
 	glColor3f(cor[0], cor[1], cor[2]);
 	
 	//glTranslatef(0.0f, 0.7f, 0.0f);
-	glRotatef(angulo, 1.0f, 0.0f, 0.0f);
-	glTranslatef(pos_x, pos_y, pos_z);
-	glScalef(escala_x, escala_y, escala_z);
-	glutSolidCube(1.0);
+	primitiva_cubo(pos_x, pos_y, pos_z, escala_x, escala_y, escala_z, angulo);
 
 	glPopMatrix();
 }
