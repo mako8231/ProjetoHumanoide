@@ -100,7 +100,13 @@ void keyboard(unsigned char key, int x, int y){
 
 
 		case '1':
-			boneco.braco_direito.angulo += 1.0f;
+			boneco.braco_direito.angulo -= 1.0f;
+			boneco.braco_direito.x = 1.0;
+			boneco.braco_direito.y = 0.0;
+			boneco.braco_direito.z = 0.0;
+			
+			printf("%f\n", boneco.braco_direito.angulo);
+
 			break;
 
 	}

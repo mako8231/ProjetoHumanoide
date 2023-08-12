@@ -89,20 +89,20 @@ void desenhar_cabeca(){
 //desenhando as partes dos braços
 void desenhar_antebraco(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
 	//desenhar_cuboide(COR_DE_PELE, -0.8f, 0.7f, 0.0f, 0.3f, 1.0f, 0.5f);
-	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);
+	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo, rot_x, rot_y, rot_z);
 }
 
 void desenhar_braco(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
-	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);	
+	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo, rot_x, rot_y, rot_z);	
 }
 
 //desenhando as partes das pernas 
 void desenhar_coxa(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
-	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);
+	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo, rot_x, rot_y, rot_z);
 }
 
 void desenhar_perna(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
-	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);	
+	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo, rot_x, rot_y, rot_z);	
 }
 
 //desenhando o torso 
