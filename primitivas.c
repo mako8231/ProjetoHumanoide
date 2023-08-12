@@ -111,7 +111,25 @@ void desenhar_torso(){
 }
 
 //por fim, protótipo para desenhar o humanoide em sua inteiridade:
-void desenhar_humanoide(){
-
+void desenhar_humanoide(Corpo boneco){
+//desenhando os componentes base do boneco
+	desenhar_cabeca();
+	desenhar_torso();
+	//desenhando o antebraço esquerdo 
+	desenhar_antebraco(boneco.angulo_antebraco_esquerdo, -0.8f, 0.7f, 0.0f);
+	//desenhando o antebraço direito
+	desenhar_antebraco(boneco.angulo_braco_direito, 0.8f, 0.7f, 0.0f);
+	//desenhando o braço esquerdo
+	desenhar_braco(boneco.angulo_braco_esquerdo, -0.8f, -0.2f, 0.0f);
+	//desenhando o braço direito
+	desenhar_braco(boneco.angulo_braco_direito, 0.8f, -0.2f, 0.0f);
+	//desenhando a coxa direita
+	desenhar_coxa(0.0, 0.3, -0.2, 0.0f);
+	//desenhando a coxa esquerda
+	desenhar_coxa(0.0, -0.3, -0.2, 0.0f);
+	//desenhando a perna esquerda
+	desenhar_perna(0.0, -0.3, -1.0, 0.0f);
+	//desenhando a perna direita
+	desenhar_perna(0.0, 0.3, -1.0, 0.0f);
 }
 

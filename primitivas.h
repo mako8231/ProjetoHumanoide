@@ -16,6 +16,7 @@
 	#include <GL/freeglut.h>
 	#include <GL/glu.h>
 	#include <GL/gl.h>
+	#include "animacao.h"
 	
 	void pegar_cor(int RGB, GLfloat vetor_cor[3]);
 
@@ -38,6 +39,6 @@
 	void desenhar_torso();
 
 	//por fim, protótipo para desenhar o humanoide em sua inteiridade:
-	void desenhar_humanoide();
+	void desenhar_humanoide(Corpo boneco);
 
 #endif 

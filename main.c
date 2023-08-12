@@ -36,25 +36,8 @@ void display(){
 			  targetX, targetY, targetZ, 	//olhar para o alvo (x, y, z)
 			  0.0, 1.0, 0.0);	//vetor de cima 	(x, y, z)
 
-	//desenhando os componentes base do boneco
-	desenhar_cabeca();
-	desenhar_torso();
-	//desenhando o antebraço esquerdo 
-	desenhar_antebraco(0.0, -0.8f, 0.7f, 0.0f);
-	//desenhando o antebraço direito
-	desenhar_antebraco(0.0, 0.8f, 0.7f, 0.0f);
-	//desenhando o braço esquerdo
-	desenhar_braco(0.0, -0.8f, -0.2f, 0.0f);
-	//desenhando o braço direito
-	desenhar_braco(0.0, 0.8f, -0.2f, 0.0f);
-	//desenhando a coxa direita
-	desenhar_coxa(0.0, 0.3, -0.2, 0.0f);
-	//desenhando a coxa esquerda
-	desenhar_coxa(0.0, -0.3, -0.2, 0.0f);
-	//desenhando a perna esquerda
-	desenhar_perna(0.0, -0.3, -1.0, 0.0f);
-	//desenhando a perna direita
-	desenhar_perna(0.0, 0.3, -1.0, 0.0f);
+	//função de desenhar humanoide
+	desenhar_humanoide();
 
 	glutSwapBuffers();
 
@@ -113,6 +96,15 @@ void keyboard(unsigned char key, int x, int y){
 }
 
 int main(int argc, char ** argv){
+	printf("============== CONTROLES ============== \n");
+	printf("W 		- 	FRENTE\n");
+	printf("A 		- 	FRENTE\n");
+	printf("S 		- 	FRENTE\n");
+	printf("D 		-	FRENTE\n");
+	printf("Q e E 		-   ROTAÇÃO DA CÂMERA\n");
+	printf("============== CONTROLES ============== \n");
+	
+
 	//definindo os parâmetros da câmera:
 	cam.x = 0.0f;
 	cam.y = 0.5f;
