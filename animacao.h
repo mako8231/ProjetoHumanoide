@@ -1,24 +1,32 @@
 #ifndef ANIMACAO_H 
 #define ANIMACAO_H
 
+typedef struct membro {
+    float angulo;
+    float x; 
+    float y;
+    float z; 
+} Membro;
+
 typedef struct corpo {
     //Angulos dos antebracos 
-    float angulo_antebraco_direito;
-    float angulo_antebraco_esquerdo;
-    
+    Membro antebraco_direito;
+    Membro antebraco_esquerdo;
+
     //Angulo dos braços 
-    float angulo_braco_direito;
-    float angulo_braco_esquerdo;
+    Membro braco_direito;
+    Membro braco_esquerdo;
 
     //Angulo da coxa
-    float angulo_coxa_direita;
-    float angulo_coxa_esquerda;
+    Membro coxa_direita;
+    Membro coxa_esquerda;
 
     //Angulo da perna
-    float angulo_perna_direita;
-    float angulo_perna_esquerda;
+    Membro perna_direita;
+    Membro perna_esquerda;
     
 } Corpo;
+
 
 void mover_braco(float angulo, Corpo * boneco);
 

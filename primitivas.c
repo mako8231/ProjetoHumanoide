@@ -26,14 +26,14 @@ void pegar_cor(int RGB, GLfloat vetor_cor[3]){
 
 
 //função que define a primitiva do cubo:
-void primitiva_cubo(float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z, GLfloat angulo){
-	glRotatef(angulo, 1.0f, 0.0f, 0.0f);
+void primitiva_cubo(float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z, GLfloat angulo, GLfloat rot_x, GLfloat rot_y, GLfloat rot_z){
+	glRotatef(angulo, rot_x, rot_y, rot_z);
 	glTranslatef(pos_x, pos_y, pos_z);
 	glScalef(escala_x, escala_y, escala_z);
 	glutSolidCube(1.0);
 }
 
-void desenhar_cuboide(int int_cor, float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z, GLfloat angulo){
+void desenhar_cuboide(int int_cor, float pos_x, float pos_y, float pos_z, float escala_x, float escala_y, float escala_z, GLfloat angulo, GLfloat rot_x, GLfloat rot_y, GLfloat rot_z){
 	GLfloat cor[3];
 	
 	pegar_cor(int_cor, cor);
@@ -46,7 +46,7 @@ void desenhar_cuboide(int int_cor, float pos_x, float pos_y, float pos_z, float 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glColor3f(0, 0, 0);
-	primitiva_cubo(pos_x, pos_y, pos_z, escala_x, escala_y, escala_z, angulo);
+	primitiva_cubo(pos_x, pos_y, pos_z, escala_x, escala_y, escala_z, angulo, rot_x, rot_y, rot_z);
 	//desabilitando o modo wireframe
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -60,7 +60,7 @@ void desenhar_cuboide(int int_cor, float pos_x, float pos_y, float pos_z, float 
 	glColor3f(cor[0], cor[1], cor[2]);
 	
 	//glTranslatef(0.0f, 0.7f, 0.0f);
-	primitiva_cubo(pos_x, pos_y, pos_z, escala_x, escala_y, escala_z, angulo);
+	primitiva_cubo(pos_x, pos_y, pos_z, escala_x, escala_y, escala_z, angulo, rot_x, rot_y, rot_z);
 
 	glPopMatrix();
 }
@@ -87,27 +87,27 @@ void desenhar_cabeca(){
 }
 
 //desenhando as partes dos braços
-void desenhar_antebraco(GLfloat angulo, float pos_x, float pos_y, float pos_z){
+void desenhar_antebraco(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
 	//desenhar_cuboide(COR_DE_PELE, -0.8f, 0.7f, 0.0f, 0.3f, 1.0f, 0.5f);
-	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo);
+	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);
 }
 
-void desenhar_braco(GLfloat angulo, float pos_x, float pos_y, float pos_z){
-	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo);	
+void desenhar_braco(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
+	desenhar_cuboide(COR_DE_PELE, pos_x, pos_y, pos_z, 0.3f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);	
 }
 
 //desenhando as partes das pernas 
-void desenhar_coxa(GLfloat angulo, float pos_x, float pos_y, float pos_z){
-	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo);
+void desenhar_coxa(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
+	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);
 }
 
-void desenhar_perna(GLfloat angulo, float pos_x, float pos_y, float pos_z){
-	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo);	
+void desenhar_perna(GLfloat angulo, float pos_x, float pos_y, float pos_z, float rot_x, float rot_y, float rot_z){
+	desenhar_cuboide(COR_DA_CALCA, pos_x, pos_y, pos_z, 0.5f, 0.7f, 0.5f, angulo, pos_x, pos_y, pos_z);	
 }
 
 //desenhando o torso 
 void desenhar_torso(){
-	desenhar_cuboide(COR_DA_CAMISA, 0.0f, 0.7f, 0.0f, 1.0f, 1.0, 1.0, 0.0);
+	desenhar_cuboide(COR_DA_CAMISA, 0.0f, 0.7f, 0.0f, 1.0f, 1.0, 1.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 //por fim, protótipo para desenhar o humanoide em sua inteiridade:
@@ -116,20 +116,35 @@ void desenhar_humanoide(Corpo boneco){
 	desenhar_cabeca();
 	desenhar_torso();
 	//desenhando o antebraço esquerdo 
-	desenhar_antebraco(boneco.angulo_antebraco_esquerdo, -0.8f, 0.7f, 0.0f);
+	desenhar_antebraco(boneco.antebraco_esquerdo.angulo, -0.8f, 0.7f, 0.0f, 
+	boneco.antebraco_esquerdo.x, boneco.antebraco_esquerdo.y, boneco.antebraco_esquerdo.z);
+	
 	//desenhando o antebraço direito
-	desenhar_antebraco(boneco.angulo_braco_direito, 0.8f, 0.7f, 0.0f);
+	desenhar_antebraco(boneco.antebraco_direito.angulo, 0.8f, 0.7f, 0.0f,
+	boneco.antebraco_direito.x, boneco.antebraco_direito.y, boneco.antebraco_direito.z);
+	
 	//desenhando o braço esquerdo
-	desenhar_braco(boneco.angulo_braco_esquerdo, -0.8f, -0.2f, 0.0f);
+	desenhar_braco(boneco.braco_esquerdo.angulo, -0.8f, -0.2f, 0.0f,
+	boneco.braco_esquerdo.x, boneco.braco_esquerdo.y, boneco.braco_esquerdo.z);
+	
 	//desenhando o braço direito
-	desenhar_braco(boneco.angulo_braco_direito, 0.8f, -0.2f, 0.0f);
+	desenhar_braco(boneco.braco_direito.angulo, 0.8f, -0.2f, 0.0f,
+	boneco.braco_direito.x, boneco.braco_direito.y, boneco.braco_direito.z);
+	
 	//desenhando a coxa direita
-	desenhar_coxa(0.0, 0.3, -0.2, 0.0f);
+	desenhar_coxa(boneco.coxa_direita.angulo, 0.3, -0.2, 0.0f,
+	boneco.coxa_direita.x, boneco.coxa_direita.y, boneco.coxa_direita.z);
+	
 	//desenhando a coxa esquerda
-	desenhar_coxa(0.0, -0.3, -0.2, 0.0f);
+	desenhar_coxa(boneco.coxa_esquerda.angulo, -0.3, -0.2, 0.0f,
+	boneco.coxa_esquerda.x, boneco.coxa_esquerda.y, boneco.coxa_esquerda.z);
+	
 	//desenhando a perna esquerda
-	desenhar_perna(0.0, -0.3, -1.0, 0.0f);
+	desenhar_perna(boneco.perna_esquerda.angulo, -0.3, -1.0, 0.0f,
+	boneco.perna_esquerda.x, boneco.perna_esquerda.y, boneco.perna_esquerda.z);
+	
 	//desenhando a perna direita
-	desenhar_perna(0.0, 0.3, -1.0, 0.0f);
+	desenhar_perna(boneco.perna_direita.angulo, 0.3, -1.0, 0.0f,
+	boneco.perna_direita.x, boneco.perna_direita.y, boneco.perna_direita.z);
 }
 
