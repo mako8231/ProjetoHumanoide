@@ -1,23 +1,7 @@
 #include "animacao.h"
 #include <GL/freeglut.h>
 #include <stdio.h>
-
-//retorna o valor absoluto de um numero
-float modulo(float numero){
-    if (numero < 0){
-        return numero * -1.0f;
-    }
-
-    return numero;
-}
-
-//Retorna um sinal de um número, se x>=0, retorna 1, caso contrário, -1
-float sinal(float numero){
-    if (numero < 0){
-        return -1.0f;
-    } 
-    return 1.0f;
-}
+#include "matematica.h"
 
 void idle(Corpo * boneco, int * caminhando){
     //definindo os parâmetros do boneco:
@@ -82,8 +66,6 @@ void mover_perna_direita(Corpo * boneco, int * caminhando, float * velocidade_ca
     boneco->perna_direita.x = 1.0;
     boneco->perna_direita.y = 0.0;
     boneco->perna_direita.z = 0.0;
-    
-    printf("%f\n", modulo(boneco->coxa_direita.angulo));
 
     if (modulo(boneco->coxa_direita.angulo) > 90 || modulo(boneco->perna_direita.angulo) > 90){        
         boneco->coxa_direita.angulo = 80 * sinal(boneco->coxa_direita.angulo);

@@ -128,6 +128,8 @@ int main(int argc, char ** argv){
 	printf("S 		- 	FRENTE\n");
 	printf("D 		-	FRENTE\n");
 	printf("Q e E 		-   ROTAÇÃO DA CÂMERA\n");
+	printf("1 		- 	PARAR CAMINHADA\n");
+	printf("0 		- 	CAMINHAR\n");
 	printf("============== CONTROLES ============== \n");
 	
 	//definindo os parâmetros do boneco:
