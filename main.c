@@ -27,7 +27,7 @@ Camera cam;
 
 //Declarar os parâmetros do boneco:
 Corpo boneco;
-float velocidade_caminhada = 5.0f;
+float velocidade_caminhada = 2.0f;
 
 void display(){
 	
@@ -40,15 +40,17 @@ void display(){
 	float targetZ = cam.z - cos(cam.yaw * PI/180.0f);
 
 
-	gluLookAt(cam.x, cam.y, cam.z, 	//posição da câmera (x, y, z) 
+	gluLookAt(cam.x, 	cam.y, cam.z, 		//posição da câmera (x, y, z) 
 			  targetX, targetY, targetZ, 	//olhar para o alvo (x, y, z)
-			  0.0, 1.0, 0.0);	//vetor de cima 	(x, y, z)
+			  0.0, 		1.0, 	0.0	   );	//vetor de cima 	(x, y, z)
 
 	//função de desenhar humanoide
 	desenhar_humanoide(boneco);
 	//caminhar 
-	caminhar(&boneco, &caminhando, &velocidade_caminhada);
-
+	if (caminhando == TRUE){
+		caminhar(&boneco, &caminhando, &velocidade_caminhada);
+	}
+	
 	glutSwapBuffers();
 
 }
@@ -107,6 +109,10 @@ void keyboard(unsigned char key, int x, int y){
 
 		case '1':
 			caminhando = TRUE;
+			break;
+		
+		case '0':
+			caminhando = FALSE; 
 			break;
 
 	}

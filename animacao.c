@@ -1,6 +1,8 @@
 #include "animacao.h"
+#include <GL/freeglut.h>
 #include <stdio.h>
 
+//retorna o valor absoluto de um numero
 float modulo(float numero){
     if (numero < 0){
         return numero * -1.0f;
@@ -9,6 +11,7 @@ float modulo(float numero){
     return numero;
 }
 
+//Retorna um sinal de um número, se x>=0, retorna 1, caso contrário, -1
 float sinal(float numero){
     if (numero < 0){
         return -1.0f;
@@ -109,13 +112,7 @@ void mover_perna_esquerda(Corpo * boneco, int * caminhando, float * velocidade_c
 }
 
 void caminhar(Corpo * boneco, int * caminhando, float * velocidade_caminhada){
-    //Se a variável de caminhada for falsa, não faça nada.
-    if (*caminhando == FALSE){
-        //Ajustar a posição do boneco:
-        idle(boneco, caminhando);
-        return;    
-    }
-    
     mover_perna_direita(boneco, caminhando, velocidade_caminhada, -1.0f);
     mover_perna_esquerda(boneco, caminhando, velocidade_caminhada, 1.0f);
+    glutPostRedisplay();
 }
