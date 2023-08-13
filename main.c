@@ -9,6 +9,10 @@
 //definindo constantes
 #define PI 3.141592653589
 
+/*~~~~~~~~~~~~~~~~ VARIÁVEIS DE CONTROLE DE ANIMAÇÃO ~~~~~~~~~~~~~~~~~~~~*/
+int caminhando = FALSE; 
+
+
 //criando uma estrutura de dados para a camera:
 typedef struct camera {
 	float x;
@@ -26,8 +30,11 @@ Corpo boneco;
 
 float angulo_braco_esquerdo = 0.0f; 
 float angulo_braco_direito = 0.0f;
+float velocidade_caminhada = 2.0f;
 
 void display(){
+	
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 	
@@ -42,6 +49,8 @@ void display(){
 
 	//função de desenhar humanoide
 	desenhar_humanoide(boneco);
+	//caminhar 
+	caminhar(&boneco, &caminhando, &velocidade_caminhada);
 
 	glutSwapBuffers();
 
@@ -100,13 +109,7 @@ void keyboard(unsigned char key, int x, int y){
 
 
 		case '1':
-			boneco.braco_direito.angulo -= 1.0f;
-			boneco.braco_direito.x = 1.0;
-			boneco.braco_direito.y = 0.0;
-			boneco.braco_direito.z = 0.0;
-			
-			printf("%f\n", boneco.braco_direito.angulo);
-
+			caminhando = TRUE;
 			break;
 
 	}
@@ -115,6 +118,7 @@ void keyboard(unsigned char key, int x, int y){
 }
 
 int main(int argc, char ** argv){
+	
 	printf("============== CONTROLES ============== \n");
 	printf("W 		- 	FRENTE\n");
 	printf("A 		- 	FRENTE\n");

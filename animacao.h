@@ -1,6 +1,9 @@
 #ifndef ANIMACAO_H 
 #define ANIMACAO_H
 
+#define TRUE 1 
+#define FALSE 0
+
 typedef struct membro {
     float angulo;
     float x; 
@@ -27,8 +30,11 @@ typedef struct corpo {
     
 } Corpo;
 
+//Estado inerte
+void idle(Corpo * boneco, int * caminhando);
 
-void mover_braco(float angulo, Corpo * boneco);
+//Ciclo de caminhada
+void caminhar(Corpo * boneco, int * caminhando, float * velocidade_caminhada);
 
 
 #endif

@@ -3,6 +3,7 @@
 #include <GL/gl.h>
 #include <stdio.h>
 #include "primitivas.h"
+#include "animacao.h"
 
 /**Faz um truque envolendo operações bitwise onde você consegue pégar o código RGB 
    e convertê-lo para o esquema RGB do openGL.
