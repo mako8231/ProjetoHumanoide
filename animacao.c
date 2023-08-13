@@ -68,22 +68,14 @@ void idle(Corpo * boneco, int * caminhando){
 	boneco->perna_esquerda.z = 0.0f;	
 }
 
-void caminhar(Corpo * boneco, int * caminhando, float * velocidade_caminhada){
-    //Se a variável de caminhada for falsa, não faça nada.
-    if (*caminhando == FALSE){
-        //Ajustar a posição do boneco:
-        idle(boneco, caminhando);
-        return;    
-    }
-    
-    
-    //mover perna direita 
-    boneco->coxa_direita.angulo += *velocidade_caminhada; 
+void mover_perna_direita(Corpo * boneco, int * caminhando, float * velocidade_caminhada, float sign){
+//mover perna direita 
+    boneco->coxa_direita.angulo += *velocidade_caminhada * sign; 
     boneco->coxa_direita.x = 1.0;
     boneco->coxa_direita.y = 0.0;
     boneco->coxa_direita.z = 0.0;
     
-    boneco->perna_direita.angulo += *velocidade_caminhada;
+    boneco->perna_direita.angulo += *velocidade_caminhada * sign;
     boneco->perna_direita.x = 1.0;
     boneco->perna_direita.y = 0.0;
     boneco->perna_direita.z = 0.0;
@@ -95,5 +87,35 @@ void caminhar(Corpo * boneco, int * caminhando, float * velocidade_caminhada){
         boneco->perna_direita.angulo = 80 * sinal(boneco->perna_direita.angulo);
         *velocidade_caminhada *= -1.0f;
     }
+}
 
+void mover_perna_esquerda(Corpo * boneco, int * caminhando, float * velocidade_caminhada, float sign){
+//mover perna esquerda 
+    boneco->coxa_esquerda.angulo += *velocidade_caminhada * sign; 
+    boneco->coxa_esquerda.x = 1.0;
+    boneco->coxa_esquerda.y = 0.0;
+    boneco->coxa_esquerda.z = 0.0;
+    
+    boneco->perna_esquerda.angulo += *velocidade_caminhada * sign;
+    boneco->perna_esquerda.x = 1.0;
+    boneco->perna_esquerda.y = 0.0;
+    boneco->perna_esquerda.z = 0.0;
+    
+    if (modulo(boneco->coxa_direita.angulo) > 90 || modulo(boneco->perna_direita.angulo) > 90){        
+        boneco->coxa_esquerda.angulo = 80 * sinal(boneco->coxa_direita.angulo);
+        boneco->perna_esquerda.angulo = 80 * sinal(boneco->perna_direita.angulo);
+        *velocidade_caminhada *= -1.0f;
+    }
+}
+
+void caminhar(Corpo * boneco, int * caminhando, float * velocidade_caminhada){
+    //Se a variável de caminhada for falsa, não faça nada.
+    if (*caminhando == FALSE){
+        //Ajustar a posição do boneco:
+        idle(boneco, caminhando);
+        return;    
+    }
+    
+    mover_perna_direita(boneco, caminhando, velocidade_caminhada, -1.0f);
+    mover_perna_esquerda(boneco, caminhando, velocidade_caminhada, 1.0f);
 }

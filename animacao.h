@@ -33,6 +33,12 @@ typedef struct corpo {
 //Estado inerte
 void idle(Corpo * boneco, int * caminhando);
 
+//Mover a perna direita 
+void mover_perna_direita(Corpo * boneco, int * caminhando, float * velocidade_caminhada, float sinal);
+
+//Mover a perna esquerda 
+void mover_perna_esquerda(Corpo * boneco, int * caminhando, float * velocidade_caminhada, float sinal);
+
 //Ciclo de caminhada
 void caminhar(Corpo * boneco, int * caminhando, float * velocidade_caminhada);
 

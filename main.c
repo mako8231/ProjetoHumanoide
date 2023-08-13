@@ -27,10 +27,7 @@ Camera cam;
 
 //Declarar os parâmetros do boneco:
 Corpo boneco;
-
-float angulo_braco_esquerdo = 0.0f; 
-float angulo_braco_direito = 0.0f;
-float velocidade_caminhada = 2.0f;
+float velocidade_caminhada = 5.0f;
 
 void display(){
 	
