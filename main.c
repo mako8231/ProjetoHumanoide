@@ -85,24 +85,24 @@ void textoMenuMembro(){
 
 	//Renderizar o texto de opções do vetor:
 	glColor3f(0.0f, 0.3f, 1.0f);
-	glRasterPos2f(600, 150);
-	const char * vetor_pos_menu = "ROTACAO:\nQ e E - Alterar Rotacao\nOPCOES DO VETOR:\n5-X\n6-Y\n7-Z";
+	glRasterPos2f(530, 350);
+	const char * vetor_pos_menu = "ROTACAO:\nQ e E - Alterar Rotacao\nOPCOES DO VETOR:\n5-X do membro superior\n6-Y do membro superior\n7-Z do membro superior\n\nA-X do membro inferior\nS-Y do membro inferior\nD-Z do membro inferior\nZ-X Alterar rotacao do\n membro inferior";
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)vetor_pos_menu);
 
 
-	//Renderizar o de membro:
+	//Renderizar o label de menu de membro:
 	glColor3f(0.0f, 1.0f, 1.0f);
 	glRasterPos2f(0, 500);
 	const char * membro_texto = "MEMBRO SELECIONADO:\n";
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)membro_texto);
 
-	//Renderizar o de membro:
+	//Renderizar o item do membro:
 	glColor3f(0.0f, 1.0f, 1.0f);
 	glRasterPos2f(0, 470);
 	const char * membro = membros_nome[indice_membro];
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)membro);
 	
-	//Parâmetros do membro:
+	//Parâmetros do membro superior:
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glRasterPos2f(0, 400);
 	char parametros[300];
@@ -115,6 +115,23 @@ void textoMenuMembro(){
 	char vetor_eixo[800];
 	sprintf(vetor_eixo, "Vetor de eixo de rotacao (%0.1f, %0.1f, %0.1f)", boneco_membros[indice_membro][0]->x, boneco_membros[indice_membro][0]->y, boneco_membros[indice_membro][0]->z);
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)vetor_eixo);
+	
+	//Parâmetros do membro inferior:
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 320);
+	char parametros_inf[300];
+	sprintf(parametros_inf, "Angulo Inferior: %0.2f", boneco_membros[indice_membro][0]->angulo);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)parametros_inf);
+	
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 300);
+	char vetor_eixo_inf[800];
+	sprintf(vetor_eixo_inf, "Vetor de eixo de rotacao (%0.1f, %0.1f, %0.1f)", boneco_membros[indice_membro][1]->x, boneco_membros[indice_membro][1]->y, boneco_membros[indice_membro][1]->z);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)vetor_eixo_inf);
+	
+
+
 }
 
 void renderizarTexto(){
@@ -304,6 +321,39 @@ void keyboard(unsigned char key, int x, int y){
 					boneco_membros[indice_membro][1]->z = 0.0f;
 				}
 			break;
+
+			case 'a':
+				if (boneco_membros[indice_membro][1]->x == 0.0f){
+					boneco_membros[indice_membro][1]->x = 1.0f;
+				} else {
+					boneco_membros[indice_membro][1]->x = 0.0f;
+				}
+			break;
+
+			case 's':
+				if (boneco_membros[indice_membro][1]->y == 0.0f){
+					boneco_membros[indice_membro][1]->y = 1.0f;
+				} else {
+					boneco_membros[indice_membro][1]->y = 0.0f;
+				}
+			break;
+
+			case 'd':
+				if (boneco_membros[indice_membro][1]->z == 0.0f){
+					boneco_membros[indice_membro][1]->z = 1.0f;
+				} else {
+					boneco_membros[indice_membro][1]->z = 0.0f;
+				}
+			break;
+
+			case 'z':
+				boneco_membros[indice_membro][1]->angulo += 1; 
+			break;
+
+			case 'x':
+				boneco_membros[indice_membro][1]->angulo -= 1; 
+			break;
+			
 		}
 	}
 
