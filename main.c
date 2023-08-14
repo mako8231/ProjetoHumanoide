@@ -18,8 +18,16 @@
 //definindo constantes
 #define PI 3.141592653589
 
+//definindo variáveis da janela 
+int w_width, w_height;
+
+
 /*~~~~~~~~~~~~~~~~ VARIÁVEIS DE CONTROLE DE ANIMAÇÃO ~~~~~~~~~~~~~~~~~~~~*/
 int caminhando = FALSE; 
+
+/*~~~~~~~~~~~~~~~~ VARIÁVEIS DE CONTROLE DE MEMBRO ~~~~~~~~~~~~~~~~~~~~*/
+//Vetor dos membros que indica a orientação do eixo na qual essa primitiva irá rotacionar.
+float vetor_membro[3] = {0.0f, 1.0f, 0.0f};
 
 
 //criando uma estrutura de dados para a camera:
@@ -36,7 +44,41 @@ Camera cam;
 
 //Declarar os parâmetros do boneco:
 Corpo boneco;
-float velocidade_caminhada = 2.0f;
+float velocidade_caminhada = 4.0f;
+
+
+void renderizarTexto(){
+	//Mudar para a projeção ortográfica
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(0, w_width, 0, w_height); //dimensões da janela
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+
+	//Renderizar o texto:
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 300);
+	const char * cam_texto = "CONTROLES DA CAMERA:\nW - Frente\nA - Esquerda\nS - Atras\nD - Direita\nQ e E - Rotacionar a Camera\n";
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)cam_texto);
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(500, 300);
+	const char * control_texto = "CONTROLES DO PERSONAGEM:\n1 - Caminhar/Parar\nA - Esquerda\nS - Atras\nD - Direita";
+	
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)control_texto);
+
+	glPopMatrix();
+
+	// Restaurando a projeção tridimensional
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glMatrixMode(GL_MODELVIEW);
+
+
+}
 
 void display(){
 	
@@ -59,10 +101,14 @@ void display(){
 	if (caminhando == TRUE){
 		caminhar(&boneco, &caminhando, &velocidade_caminhada);
 	}
-	
+
+	//Renderizar o texto
+	renderizarTexto();
+
 	glutSwapBuffers();
 
 }
+
 
 void reshape(int width, int height){
     glViewport(0, 0, width, height);
@@ -133,6 +179,10 @@ void keyboard(unsigned char key, int x, int y){
 
 int main(int argc, char ** argv){
 	
+	//definindo os valores
+	w_width = 800;
+	w_height = 600;
+
 	printf("============== CONTROLES ============== \n");
 	printf("W 		- 	FRENTE\n");
 	printf("A 		- 	FRENTE\n");
@@ -201,7 +251,7 @@ int main(int argc, char ** argv){
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	glutInitWindowSize(800, 600);
+	glutInitWindowSize(w_width, w_height);
 	glutCreateWindow("Boneco Humanóide");
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
