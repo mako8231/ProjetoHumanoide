@@ -3,9 +3,17 @@
 #include <stdio.h>
 #include "matematica.h"
 
+void moverMembro(Membro * parte, float angulo, float x, float y, float z){
+	parte->angulo = angulo;
+	parte->x = x;
+	parte->y = y;
+	parte->z = z;
+}
+
 void idle(Corpo * boneco, int * caminhando){
     //definindo os parâmetros do boneco:
 	//antebraço direito 
+	*caminhando = FALSE;
 	boneco->antebraco_direito.angulo = 0.0f;
 	boneco->antebraco_direito.x = 0.0f;
 	boneco->antebraco_direito.y = 1.0f;

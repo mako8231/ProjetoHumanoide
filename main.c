@@ -1,3 +1,12 @@
+/*
+	**TRABALHO DE COMPUTAÇÃO GRÁFICA** 
+		INTEGRANTES:
+		-ARTHUR LIMA
+		-LUCAS TAKASHI HONDA
+		-MASAO MURAOKA NETO
+*/
+
+
 #include <GL/freeglut.h>
 #include <GL/glu.h>
 #include <GL/gl.h>
@@ -106,14 +115,16 @@ void keyboard(unsigned char key, int x, int y){
 
 		/*CONTROLES DAS ANIMAÇÕES DO BONECO*/
 
-
+		//Ciclo de caminhada
 		case '1':
-			caminhando = TRUE;
+			caminhando = !caminhando;
 			break;
 		
-		case '0':
-			caminhando = FALSE; 
+		//Reiniciar animação para a posição original.
+		case 'r':
+			idle(&boneco, &caminhando);
 			break;
+	
 
 	}
 
@@ -128,8 +139,7 @@ int main(int argc, char ** argv){
 	printf("S 		- 	FRENTE\n");
 	printf("D 		-	FRENTE\n");
 	printf("Q e E 		-   ROTAÇÃO DA CÂMERA\n");
-	printf("1 		- 	PARAR CAMINHADA\n");
-	printf("0 		- 	CAMINHAR\n");
+	printf("1 		- 	CAMINHAR/PARAR CAMINHADA\n");
 	printf("============== CONTROLES ============== \n");
 	
 	//definindo os parâmetros do boneco:
