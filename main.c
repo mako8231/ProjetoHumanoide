@@ -83,6 +83,12 @@ void textoMenuMembro(){
 	const char * membro_menu = "1 - Braco Esquerdo\n2 - Braco Direito\n3 - Perna Esquerda\n4 - Perna Direita\n";
 	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)membro_menu);
 
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glRasterPos2f(500, 500);
+	const char * sair = "R - Sair do menu de membro\n";
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)sair);
+
+
 	//Renderizar o texto de opções do vetor:
 	glColor3f(0.0f, 0.3f, 1.0f);
 	glRasterPos2f(530, 350);
@@ -354,6 +360,11 @@ void keyboard(unsigned char key, int x, int y){
 				boneco_membros[indice_membro][1]->angulo -= 1; 
 			break;
 			
+			case 'r':
+				menu_membro = FALSE; 
+				menu_principal = TRUE;
+				idle(&boneco, &caminhando);
+			break;
 		}
 	}
 
