@@ -12,6 +12,7 @@
 #include <GL/gl.h>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 #include "primitivas.h"
 #include "animacao.h"
 
@@ -29,6 +30,18 @@ int caminhando = FALSE;
 //Vetor dos membros que indica a orientação do eixo na qual essa primitiva irá rotacionar.
 float vetor_membro[3] = {0.0f, 1.0f, 0.0f};
 
+/*~~~~~~~~~~~~~~~~ VARIÁVEIS DE CONTROLE DO MENU ~~~~~~~~~~~~~~~~~~~~*/
+char membros_nome[4][30] = {
+	"Perna direita\n",
+	"Perna esquerda\n",
+	"Braco direito\n",
+	"Braco esquerdo\n"
+};
+
+int indice_membro = 0;
+
+int menu_principal = TRUE;
+int menu_membro = FALSE; 
 
 //criando uma estrutura de dados para a camera:
 typedef struct camera {
@@ -46,6 +59,63 @@ Camera cam;
 Corpo boneco;
 float velocidade_caminhada = 4.0f;
 
+Membro * boneco_membros[4][2];
+
+
+void textoMenuPrincipal(){
+	//Renderizar o texto:
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 300);
+	const char * cam_texto = "CONTROLES DA CAMERA:\nW - Frente\nA - Esquerda\nS - Atras\nD - Direita\nQ e E - Rotacionar a Camera\n";
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)cam_texto);
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(500, 300);
+	const char * control_texto = "CONTROLES DO PERSONAGEM:\n1 - Caminhar/Parar\n2 - Selecionar Membro";
+	
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)control_texto);
+}
+
+void textoMenuMembro(){
+	//Renderizar o texto de opções:
+	glColor3f(0.0f, 0.3f, 1.0f);
+	glRasterPos2f(0, 100);
+	const char * membro_menu = "1 - Braco Esquerdo\n2 - Braco Direito\n3 - Perna Esquerda\n4 - Perna Direita\n";
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)membro_menu);
+
+	//Renderizar o texto de opções do vetor:
+	glColor3f(0.0f, 0.3f, 1.0f);
+	glRasterPos2f(600, 150);
+	const char * vetor_pos_menu = "ROTACAO:\nQ e E - Alterar Rotacao\nOPCOES DO VETOR:\n5-X\n6-Y\n7-Z";
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)vetor_pos_menu);
+
+
+	//Renderizar o de membro:
+	glColor3f(0.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 500);
+	const char * membro_texto = "MEMBRO SELECIONADO:\n";
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)membro_texto);
+
+	//Renderizar o de membro:
+	glColor3f(0.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 470);
+	const char * membro = membros_nome[indice_membro];
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)membro);
+	
+	//Parâmetros do membro:
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 400);
+	char parametros[300];
+	sprintf(parametros, "Angulo: %0.2f", boneco_membros[indice_membro][0]->angulo);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)parametros);
+	
+
+	glColor3f(1.0f, 1.0f, 1.0f);
+	glRasterPos2f(0, 370);
+	char vetor_eixo[800];
+	sprintf(vetor_eixo, "Vetor de eixo de rotacao (%0.1f, %0.1f, %0.1f)", boneco_membros[indice_membro][0]->x, boneco_membros[indice_membro][0]->y, boneco_membros[indice_membro][0]->z);
+	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)vetor_eixo);
+}
 
 void renderizarTexto(){
 	//Mudar para a projeção ortográfica
@@ -58,21 +128,15 @@ void renderizarTexto(){
 	glPushMatrix();
 	glLoadIdentity();
 
-	//Renderizar o texto:
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glRasterPos2f(0, 300);
-	const char * cam_texto = "CONTROLES DA CAMERA:\nW - Frente\nA - Esquerda\nS - Atras\nD - Direita\nQ e E - Rotacionar a Camera\n";
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)cam_texto);
-
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glRasterPos2f(500, 300);
-	const char * control_texto = "CONTROLES DO PERSONAGEM:\n1 - Caminhar/Parar\nA - Esquerda\nS - Atras\nD - Direita";
-	
-	glutBitmapString(GLUT_BITMAP_HELVETICA_18, (const unsigned char*)control_texto);
+	if (menu_principal){
+		textoMenuPrincipal();
+	} else if (menu_membro){
+		textoMenuMembro();
+	}
 
 	glPopMatrix();
 
-	// Restaurando a projeção tridimensional
+	// Restaurando a projeção para o sistema de referência da câmera
     glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
@@ -121,57 +185,126 @@ void reshape(int width, int height){
 void keyboard(unsigned char key, int x, int y){
 	const float camera_spd = 0.1f; 
 	const float rotation_spd = 2.0f;
-	switch (key){
-
-		/*CONTROLES DA CÂMERA: */
 	
-		case 'w':
+	//CONTROLES DO MENU 1 
+	if (menu_principal){	
+		switch (key){
+			/*CONTROLES DA CÂMERA: */
+			case 'w':
 
-			cam.x += camera_spd * sin(cam.yaw * PI / 180.0f);
-			cam.z -= camera_spd * cos(cam.yaw * PI / 180.0f);
+				cam.x += camera_spd * sin(cam.yaw * PI / 180.0f);
+				cam.z -= camera_spd * cos(cam.yaw * PI / 180.0f);
 
+				break;
+			case 'a':
+
+				cam.x -= camera_spd * cos(cam.yaw * PI / 180.0f);
+				cam.z -= camera_spd * sin(cam.yaw * PI / 180.0f);
+
+				break;
+			case 's':
+
+				cam.x -= camera_spd * sin(cam.yaw * PI / 180.0f);
+				cam.z += camera_spd * cos(cam.yaw * PI / 180.0f);
+
+				break;
+			case 'd':
+
+				cam.x += camera_spd * cos(cam.yaw * PI / 180.0f);
+				cam.z += camera_spd * sin(cam.yaw * PI / 180.0f);
+
+				break;
+
+			case 'q':
+				cam.yaw += rotation_spd;
+				break;	
+
+
+			case 'e':
+				cam.yaw -= rotation_spd;
+				break;
+
+			/*CONTROLES DAS ANIMAÇÕES DO BONECO*/
+
+			//Ciclo de caminhada
+			case '1':
+				caminhando = !caminhando;
+				break;
+			
+			case '2':
+				menu_principal = FALSE; 
+				menu_membro = TRUE;
+				idle(&boneco, &caminhando);
+				break;
+			
+			//Reiniciar animação para a posição original.
+			case 'r':
+				idle(&boneco, &caminhando);
+				break;
+			
+		}
+	} else if (menu_membro){
+		switch (key) {
+			case '1':
+				indice_membro = 0;
 			break;
-		case 'a':
 
-			cam.x -= camera_spd * cos(cam.yaw * PI / 180.0f);
-			cam.z -= camera_spd * sin(cam.yaw * PI / 180.0f);
-
-			break;
-		case 's':
-
-			cam.x -= camera_spd * sin(cam.yaw * PI / 180.0f);
-			cam.z += camera_spd * cos(cam.yaw * PI / 180.0f);
-
-			break;
-		case 'd':
-
-			cam.x += camera_spd * cos(cam.yaw * PI / 180.0f);
-			cam.z += camera_spd * sin(cam.yaw * PI / 180.0f);
-
+			case '2':
+				indice_membro = 1;
 			break;
 
-		case 'q':
-			cam.yaw += rotation_spd;
-			break;	
-
-
-		case 'e':
-			cam.yaw -= rotation_spd;
+			case '3':
+				indice_membro = 2;
 			break;
 
-		/*CONTROLES DAS ANIMAÇÕES DO BONECO*/
-
-		//Ciclo de caminhada
-		case '1':
-			caminhando = !caminhando;
+			case '4':
+				indice_membro = 3;
 			break;
-		
-		//Reiniciar animação para a posição original.
-		case 'r':
-			idle(&boneco, &caminhando);
-			break;
-	
 
+			case 'q':
+				boneco_membros[indice_membro][0]->angulo += 1.0f;
+				boneco_membros[indice_membro][1]->angulo += 1.0f;
+			break;
+			
+			case 'e':
+				boneco_membros[indice_membro][0]->angulo -= 1.0f;
+				boneco_membros[indice_membro][1]->angulo -= 1.0f;
+			break;
+
+			case '5':
+				if (boneco_membros[indice_membro][0]->x == 0.0f){
+					
+					boneco_membros[indice_membro][0]->x = 1.0f;
+					boneco_membros[indice_membro][1]->x = 1.0f;
+				} else {
+					boneco_membros[indice_membro][0]->x = 0.0f;
+					boneco_membros[indice_membro][1]->x = 0.0f;
+				}
+			break;
+
+			
+			case '6':
+				if (boneco_membros[indice_membro][0]->y == 0.0f){
+					
+					boneco_membros[indice_membro][0]->y = 1.0f;
+					boneco_membros[indice_membro][1]->y = 1.0f;
+				} else {
+					boneco_membros[indice_membro][0]->y = 0.0f;
+					boneco_membros[indice_membro][1]->y = 0.0f;
+				}
+			break;
+			
+			case '7':
+				if (boneco_membros[indice_membro][0]->z == 0.0f){
+					
+					boneco_membros[indice_membro][0]->z = 1.0f;
+					boneco_membros[indice_membro][1]->z = 1.0f;
+				} else {
+					boneco_membros[indice_membro][0]->z = 0.0f;
+					boneco_membros[indice_membro][1]->z = 0.0f;
+				}
+			break;
+		}
 	}
 
 	glutPostRedisplay();
@@ -183,15 +316,6 @@ int main(int argc, char ** argv){
 	w_width = 800;
 	w_height = 600;
 
-	printf("============== CONTROLES ============== \n");
-	printf("W 		- 	FRENTE\n");
-	printf("A 		- 	FRENTE\n");
-	printf("S 		- 	FRENTE\n");
-	printf("D 		-	FRENTE\n");
-	printf("Q e E 		-   ROTAÇÃO DA CÂMERA\n");
-	printf("1 		- 	CAMINHAR/PARAR CAMINHADA\n");
-	printf("============== CONTROLES ============== \n");
-	
 	//definindo os parâmetros do boneco:
 	//antebraço direito 
 	boneco.antebraco_direito.angulo = 0.0f;
@@ -248,6 +372,20 @@ int main(int argc, char ** argv){
 	cam.z = 7.0f;
 	cam.yaw = 0.0;
 	cam.pitch = 0.0;
+
+	//passando os membros do corpo
+	boneco_membros[0][0] = &boneco.antebraco_esquerdo;
+	boneco_membros[0][1] = &boneco.braco_esquerdo;
+
+	boneco_membros[1][0] = &boneco.antebraco_direito;
+	boneco_membros[1][1] = &boneco.braco_direito;
+
+	boneco_membros[2][0] = &boneco.coxa_esquerda;
+	boneco_membros[2][1] = &boneco.perna_esquerda;
+
+	boneco_membros[3][0] = &boneco.coxa_direita;
+	boneco_membros[3][1] = &boneco.perna_direita;
+	
 
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);

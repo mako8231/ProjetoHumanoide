@@ -75,9 +75,9 @@ void mover_perna_direita(Corpo * boneco, int * caminhando, float * velocidade_ca
     boneco->perna_direita.y = 0.0;
     boneco->perna_direita.z = 0.0;
 
-    if (modulo(boneco->coxa_direita.angulo) > 90 || modulo(boneco->perna_direita.angulo) > 90){        
-        boneco->coxa_direita.angulo = 80 * sinal(boneco->coxa_direita.angulo);
-        boneco->perna_direita.angulo = 80 * sinal(boneco->perna_direita.angulo);
+    if (modulo(boneco->coxa_direita.angulo) > 65 || modulo(boneco->perna_direita.angulo) > 65){        
+        boneco->coxa_direita.angulo = 60 * sinal(boneco->coxa_direita.angulo);
+        boneco->perna_direita.angulo = 60 * sinal(boneco->perna_direita.angulo);
         *velocidade_caminhada *= -1.0f;
     }
 }
@@ -94,9 +94,9 @@ void mover_perna_esquerda(Corpo * boneco, int * caminhando, float * velocidade_c
     boneco->perna_esquerda.y = 0.0;
     boneco->perna_esquerda.z = 0.0;
     
-    if (modulo(boneco->coxa_direita.angulo) > 90 || modulo(boneco->perna_direita.angulo) > 90){        
-        boneco->coxa_esquerda.angulo = 80 * sinal(boneco->coxa_direita.angulo);
-        boneco->perna_esquerda.angulo = 80 * sinal(boneco->perna_direita.angulo);
+    if (modulo(boneco->coxa_direita.angulo) > 65 || modulo(boneco->perna_direita.angulo) > 65){        
+        boneco->coxa_esquerda.angulo = 60 * sinal(boneco->coxa_direita.angulo);
+        boneco->perna_esquerda.angulo = 60 * sinal(boneco->perna_direita.angulo);
         *velocidade_caminhada *= -1.0f;
     }
 }
