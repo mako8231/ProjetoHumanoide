@@ -374,17 +374,17 @@ int main(int argc, char ** argv){
 	cam.pitch = 0.0;
 
 	//passando os membros do corpo
-	boneco_membros[0][0] = &boneco.antebraco_esquerdo;
-	boneco_membros[0][1] = &boneco.braco_esquerdo;
+	boneco_membros[0][0] = &boneco.coxa_direita;
+	boneco_membros[0][1] = &boneco.perna_direita;
 
-	boneco_membros[1][0] = &boneco.antebraco_direito;
-	boneco_membros[1][1] = &boneco.braco_direito;
+	boneco_membros[1][0] = &boneco.coxa_esquerda;
+	boneco_membros[1][1] = &boneco.perna_esquerda;
 
-	boneco_membros[2][0] = &boneco.coxa_esquerda;
-	boneco_membros[2][1] = &boneco.perna_esquerda;
+	boneco_membros[2][0] = &boneco.antebraco_direito;
+	boneco_membros[2][1] = &boneco.braco_direito;
 
-	boneco_membros[3][0] = &boneco.coxa_direita;
-	boneco_membros[3][1] = &boneco.perna_direita;
+	boneco_membros[3][0] = &boneco.antebraco_esquerdo;
+	boneco_membros[3][1] = &boneco.braco_esquerdo;
 	
 
 	glutInit(&argc, argv);
